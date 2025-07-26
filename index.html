@@ -1,154 +1,267 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ahorro para el iPhone 13 Mini</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #f2f2f2, #e0f7fa);
-      text-align: center;
-      padding: 2em;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ahorro para iPhone 13 Mini</title>
+<style>
+  /* Reset y fuente */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #dff9fb, #60a3bc);
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .container {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    padding: 1rem 1.5rem 2rem;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Alcancía cerdito dorado */
+  #alcancia {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+    position: relative;
+  }
+  #alcancia img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.85; /* transparencia */
+    filter: drop-shadow(0 0 2px rgba(255,215,0,0.7));
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: #34495e;
+  }
+
+  input[type="number"] {
+    width: calc(100% - 2rem);
+    padding: 0.7rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 1.5px solid #60a3bc;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, #f9ca24, #f6e58d);
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #2d3436;
+    box-shadow: 0 4px 8px rgba(249,202,36,0.6);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #f6e58d, #f9ca24);
+  }
+
+  #progreso {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #27ae60;
+    text-align: center;
+  }
+
+  #mensaje {
+    margin-top: 0.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    min-height: 1.4rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  #mensaje.visible {
+    opacity: 1;
+  }
+
+  #historial {
+    margin-top: 1.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #dcdde1;
+  }
+  th {
+    color: #2980b9;
+    font-weight: 700;
+  }
+
+  /* Animación monedas */
+  .moneda {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 50% 40%, #f9d71c, #cda200);
+    border-radius: 50%;
+    box-shadow:
+      inset 0 3px 4px rgba(255,255,255,0.8),
+      inset 0 -3px 3px rgba(0,0,0,0.25);
+    filter: drop-shadow(0 0 2px #d4af37);
+    animation-name: caer;
+    animation-timing-function: ease-in;
+  }
+
+  @keyframes caer {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
-    h1 {
-      color: #00796b;
+    70% {
+      opacity: 1;
+      transform: translateY(100px) scale(1.2);
     }
-    input, button {
-      padding: 0.5em;
-      margin: 0.5em;
-      font-size: 1em;
+    100% {
+      opacity: 0;
+      transform: translateY(120px) scale(0.7);
     }
-    #registro {
-      margin-top: 1em;
-      background: #ffffff;
-      padding: 1em;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #progreso {
-      margin-top: 1em;
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-    .mensaje {
-      margin-top: 1em;
-      color: #388e3c;
-      font-weight: bold;
-    }
-    .efecto {
-      animation: pop 0.3s ease-out;
-    }
-    @keyframes pop {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    #historial {
-      margin-top: 2em;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #00796b;
-      padding: 8px;
-    }
-    th {
-      background-color: #00796b;
-      color: white;
-    }
-  </style>
+  }
+
+</style>
 </head>
 <body>
-  <h1>💰 Ahorro para el iPhone 13 Mini - Meta: $395</h1>
-  <div id="registro">
-    <input type="number" id="monto" placeholder="Ingresa monto ahorrado" />
+  <div class="container">
+    <div id="alcancia">
+      <!-- Imagen cerdito dorado transparente aquí -->
+      <img id="cerdito" src="https://i.imgur.com/vzpDxtw.png" alt="Alcancía cerdito dorado transparente" />
+    </div>
+    <h1>💰 Ahorro para el iPhone 13 Mini - Meta: $395</h1>
+    <input type="number" id="monto" placeholder="Ingresa monto ahorrado" min="0.01" step="0.01" />
     <button onclick="registrarAhorro()">Registrar ahorro</button>
     <div id="progreso">Total acumulado: $0<br>Faltan: $395</div>
-    <div class="mensaje" id="mensaje"></div>
+    <div id="mensaje"></div>
+    <div id="historial">
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Monto ($)</th></tr>
+        </thead>
+        <tbody id="tablaHistorial"></tbody>
+      </table>
+    </div>
   </div>
 
-  <div id="historial">
-    <h2>Historial de ahorros</h2>
-    <table>
-      <thead>
-        <tr><th>Fecha</th><th>Monto ($)</th></tr>
-      </thead>
-      <tbody id="tablaHistorial"></tbody>
-    </table>
-  </div>
+<script>
+  const meta = 395;
+  const mensajes = [
+    "¡Cada centavo cuenta!",
+    "¡Ya estás más cerca de tu iPhone!",
+    "¡Sigue así, lo estás logrando!",
+    "¡Buen trabajo, Johnny!",
+    "¡Estás más cerca de tener ese iPhone 13 mini!"
+  ];
 
-  <script>
-    const meta = 395;
-    const mensajes = [
-      "¡Cada centavo cuenta!",
-      "¡Ya estás más cerca de tu iPhone!",
-      "¡Sigue así, lo estás logrando!",
-      "¡Buen trabajo, Johnny!",
-      "¡Estás más cerca de tener ese iPhone 13 mini!"
-    ];
+  let historial = JSON.parse(localStorage.getItem("historialAhorros")) || [];
+  let total = historial.reduce((sum, entry) => sum + entry.monto, 0);
 
-    // Cargar historial y total desde localStorage o iniciar
-    let historial = JSON.parse(localStorage.getItem("historialAhorros")) || [];
-    let total = historial.reduce((sum, entry) => sum + entry.monto, 0);
+  const progresoEl = document.getElementById("progreso");
+  const mensajeEl = document.getElementById("mensaje");
+  const tablaHistorial = document.getElementById("tablaHistorial");
+  const alcancia = document.getElementById("alcancia");
 
-    // Mostrar el progreso y el historial
-    function actualizarVista() {
-      const faltante = Math.max(meta - total, 0);
-      document.getElementById("progreso").innerHTML = 
-        `Total acumulado: $${total.toFixed(2)}<br>Faltan: $${faltante.toFixed(2)}`;
+  function actualizarVista() {
+    const faltante = Math.max(meta - total, 0);
+    progresoEl.innerHTML = `Total acumulado: $${total.toFixed(2)}<br>Faltan: $${faltante.toFixed(2)}`;
 
-      const tbody = document.getElementById("tablaHistorial");
-      tbody.innerHTML = "";
-      historial.forEach(entry => {
-        const tr = document.createElement("tr");
-        const tdFecha = document.createElement("td");
-        tdFecha.textContent = entry.fecha;
-        const tdMonto = document.createElement("td");
-        tdMonto.textContent = entry.monto.toFixed(2);
-        tr.appendChild(tdFecha);
-        tr.appendChild(tdMonto);
-        tbody.appendChild(tr);
-      });
+    tablaHistorial.innerHTML = "";
+    historial.forEach(entry => {
+      const tr = document.createElement("tr");
+      const tdFecha = document.createElement("td");
+      tdFecha.textContent = entry.fecha;
+      const tdMonto = document.createElement("td");
+      tdMonto.textContent = entry.monto.toFixed(2);
+      tr.appendChild(tdFecha);
+      tr.appendChild(tdMonto);
+      tablaHistorial.appendChild(tr);
+    });
+  }
+
+  function registrarAhorro() {
+    const input = document.getElementById("monto");
+    const valor = parseFloat(input.value);
+    if (!valor || valor <= 0) return alert("Ingresa un monto válido mayor que 0.");
+
+    if (total + valor > meta) {
+      alert("No puedes ahorrar más que el total de la meta ($395). Ajusta tu monto.");
+      return;
     }
 
-    function registrarAhorro() {
-      const input = document.getElementById("monto");
-      const valor = parseFloat(input.value);
-      if (!valor || valor <= 0) return;
+    const fecha = new Date().toLocaleDateString();
 
-      if (total + valor > meta) {
-        alert("No puedes ahorrar más que el total de la meta ($395). Ajusta tu monto.");
-        return;
-      }
-
-      const fecha = new Date().toLocaleDateString();
-
-      historial.push({fecha: fecha, monto: valor});
-      total += valor;
-
-      localStorage.setItem("historialAhorros", JSON.stringify(historial));
-
-      actualizarVista();
-
-      const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
-      const mensaje = document.getElementById("mensaje");
-      mensaje.textContent = mensajeAleatorio;
-      mensaje.classList.add("efecto");
-      setTimeout(() => mensaje.classList.remove("efecto"), 300);
-
-      input.value = "";
-    }
+    historial.push({fecha: fecha, monto: valor});
+    total += valor;
+    localStorage.setItem("historialAhorros", JSON.stringify(historial));
 
     actualizarVista();
-  </script>
+
+    mostrarMensajeAleatorio();
+    animarMonedas();
+
+    input.value = "";
+  }
+
+  function mostrarMensajeAleatorio() {
+    const texto = mensajes[Math.floor(Math.random() * mensajes.length)];
+    mensajeEl.textContent = texto;
+    mensajeEl.classList.add("visible");
+    setTimeout(() => mensajeEl.classList.remove("visible"), 3000);
+  }
+
+  function animarMonedas() {
+    // Crear monedas que caen dentro del alcancía
+    const cantidadMonedas = 10;
+    for(let i=0; i < cantidadMonedas; i++) {
+      const moneda = document.createElement("div");
+      moneda.classList.add("moneda");
+      moneda.style.left = `${Math.random() * 100}px`;
+      moneda.style.top = `0px`;
+      moneda.style.animationDuration = `${0.8 + Math.random() * 0.7}s`;
+      moneda.style.animationDelay = `${i * 0.1}s`;
+      alcancia.appendChild(moneda);
+
+      moneda.addEventListener("animationend", () => {
+        moneda.remove();
+      });
+    }
+  }
+
+  actualizarVista();
+</script>
 </body>
 </html>
