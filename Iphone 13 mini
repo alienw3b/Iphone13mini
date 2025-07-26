@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ahorro para el iPhone 13 Mini</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f2f2f2, #e0f7fa);
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      color: #00796b;
+    }
+    input, button {
+      padding: 0.5em;
+      margin: 0.5em;
+      font-size: 1em;
+    }
+    #registro {
+      margin-top: 1em;
+      background: #ffffff;
+      padding: 1em;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #progreso {
+      margin-top: 1em;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .mensaje {
+      margin-top: 1em;
+      color: #388e3c;
+      font-weight: bold;
+    }
+    .efecto {
+      animation: pop 0.3s ease-out;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>💰 Ahorro para el iPhone 13 Mini - Meta: $395</h1>
+  <div id="registro">
+    <input type="number" id="monto" placeholder="Ingresa monto ahorrado" />
+    <button onclick="registrarAhorro()">Registrar ahorro</button>
+    <div id="progreso">Total acumulado: $0<br>Faltan: $395</div>
+    <div class="mensaje" id="mensaje"></div>
+  </div>  <script>
+    let total = 0;
+    const meta = 395;
+    const mensajes = [
+      "¡Cada centavo cuenta!",
+      "¡Ya estás más cerca de tu iPhone!",
+      "¡Sigue así, lo estás logrando!",
+      "¡Buen trabajo, Johnny!",
+      "¡Estás más cerca de tener ese iPhone 13 mini!"
+    ];
+
+    function registrarAhorro() {
+      const input = document.getElementById("monto");
+      const valor = parseFloat(input.value);
+      if (!valor || valor <= 0) return;
+
+      total += valor;
+      if (total > meta) total = meta;
+      const faltante = meta - total;
+      document.getElementById("progreso").innerHTML = `Total acumulado: $${total.toFixed(2)}<br>Faltan: $${faltante.toFixed(2)}`;
+
+      const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+      const mensaje = document.getElementById("mensaje");
+      mensaje.textContent = mensajeAleatorio;
+      mensaje.classList.add("efecto");
+      setTimeout(() => mensaje.classList.remove("efecto"), 300);
+
+      input.value = "";
+    }
+  </script></body>
+</html>
