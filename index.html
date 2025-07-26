@@ -1,6 +1,7 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Ahorro para el iPhone 13 Mini</title>
   <style>
     body {
@@ -45,6 +46,25 @@
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
+    #historial {
+      margin-top: 2em;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #00796b;
+      padding: 8px;
+    }
+    th {
+      background-color: #00796b;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -54,8 +74,19 @@
     <button onclick="registrarAhorro()">Registrar ahorro</button>
     <div id="progreso">Total acumulado: $0<br>Faltan: $395</div>
     <div class="mensaje" id="mensaje"></div>
-  </div>  <script>
-    let total = 0;
+  </div>
+
+  <div id="historial">
+    <h2>Historial de ahorros</h2>
+    <table>
+      <thead>
+        <tr><th>Fecha</th><th>Monto ($)</th></tr>
+      </thead>
+      <tbody id="tablaHistorial"></tbody>
+    </table>
+  </div>
+
+  <script>
     const meta = 395;
     const mensajes = [
       "¡Cada centavo cuenta!",
@@ -65,15 +96,48 @@
       "¡Estás más cerca de tener ese iPhone 13 mini!"
     ];
 
+    // Cargar historial y total desde localStorage o iniciar
+    let historial = JSON.parse(localStorage.getItem("historialAhorros")) || [];
+    let total = historial.reduce((sum, entry) => sum + entry.monto, 0);
+
+    // Mostrar el progreso y el historial
+    function actualizarVista() {
+      const faltante = Math.max(meta - total, 0);
+      document.getElementById("progreso").innerHTML = 
+        `Total acumulado: $${total.toFixed(2)}<br>Faltan: $${faltante.toFixed(2)}`;
+
+      const tbody = document.getElementById("tablaHistorial");
+      tbody.innerHTML = "";
+      historial.forEach(entry => {
+        const tr = document.createElement("tr");
+        const tdFecha = document.createElement("td");
+        tdFecha.textContent = entry.fecha;
+        const tdMonto = document.createElement("td");
+        tdMonto.textContent = entry.monto.toFixed(2);
+        tr.appendChild(tdFecha);
+        tr.appendChild(tdMonto);
+        tbody.appendChild(tr);
+      });
+    }
+
     function registrarAhorro() {
       const input = document.getElementById("monto");
       const valor = parseFloat(input.value);
       if (!valor || valor <= 0) return;
 
+      if (total + valor > meta) {
+        alert("No puedes ahorrar más que el total de la meta ($395). Ajusta tu monto.");
+        return;
+      }
+
+      const fecha = new Date().toLocaleDateString();
+
+      historial.push({fecha: fecha, monto: valor});
       total += valor;
-      if (total > meta) total = meta;
-      const faltante = meta - total;
-      document.getElementById("progreso").innerHTML = `Total acumulado: $${total.toFixed(2)}<br>Faltan: $${faltante.toFixed(2)}`;
+
+      localStorage.setItem("historialAhorros", JSON.stringify(historial));
+
+      actualizarVista();
 
       const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
       const mensaje = document.getElementById("mensaje");
@@ -83,5 +147,8 @@
 
       input.value = "";
     }
-  </script></body>
+
+    actualizarVista();
+  </script>
+</body>
 </html>
